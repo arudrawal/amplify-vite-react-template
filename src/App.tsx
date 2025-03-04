@@ -7,7 +7,7 @@ const client = generateClient<Schema>();
 
 function App() {
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
-  const {signOut} = useAuthenticator()
+  const {user, signOut} = useAuthenticator()
   useEffect(() => {
     client.models.Todo.observeQuery().subscribe({
       next: (data) => setTodos([...data.items]),
@@ -30,7 +30,7 @@ function App() {
           <li onClick={()=>deleteTodo(todo.id)} key={todo.id}>{todo.content}</li>
         ))}
       </ul>
-      <button onClick={signOut}>SignOut</button>
+      <button onClick={signOut}>SignOut ({user?.signInDetails?.loginId})</button>
       <div>
         🥳 App successfully hosted. Try creating a new todo.
         <br />
